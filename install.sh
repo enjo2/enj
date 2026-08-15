@@ -347,11 +347,19 @@ install_enj() {
 
   mkdir -p "$(dirname "$PREFIX")"
   info "installing enj into $PREFIX ..."
-  pip install --user --break-system-packages -e "$src" >/dev/null 2>&1 || {
-    err "pip install failed - try:  pip install --user -e $src"
-    rm -rf "$tmpdir"
-    exit 1
-  }
+  if [ -n "$tmpdir" ]; then
+    # temp clone: regular install (editable would break once tmpdir is removed)
+    pip install --user --break-system-packages "$src" >/dev/null 2>&1 || {
+      err "pip install failed - try:  pip install --user $src"
+      rm -rf "$tmpdir"
+      exit 1
+    }
+  else
+    pip install --user --break-system-packages -e "$src" >/dev/null 2>&1 || {
+      err "pip install failed - try:  pip install --user -e $src"
+      exit 1
+    }
+  fi
 
   # the chosen prefix itself is the `enj` command, so it can be run as
   #   <your-prefix> install <app>
