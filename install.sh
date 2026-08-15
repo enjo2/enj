@@ -230,11 +230,11 @@ name_prompt() {
   local default="enj"
   printf "\n%s%s choose a command name [%s]:%s " "$BOLD" "$CYAN" "$default" "$RESET"
   if [ "$YES" -eq 1 ]; then
-    NAME="$default"
+    CMD_NAME="$default"
   else
-    NAME="$default"
-    read -r NAME < /dev/tty || NAME="$default"
-    if [ -z "$NAME" ]; then NAME="$default"; fi
+    CMD_NAME="$default"
+    read -r CMD_NAME < /dev/tty || CMD_NAME="$default"
+    if [ -z "$CMD_NAME" ]; then CMD_NAME="$default"; fi
   fi
 }
 
@@ -471,7 +471,7 @@ main() {
 
   PREFIX="${PREFIX:-}"
   PREFIX_DIR="${PREFIX_DIR:-}"
-  NAME="${NAME:-}"
+  CMD_NAME="${CMD_NAME:-}"
   if [ -z "$PREFIX_DIR" ] && [ -z "$PREFIX" ]; then
     if [ "$YES" -eq 1 ]; then
       PREFIX_DIR="$HOME/.local"
@@ -479,19 +479,19 @@ main() {
       prefix_menu
     fi
   fi
-  if [ -z "$NAME" ]; then
+  if [ -z "$CMD_NAME" ]; then
     name_prompt
   fi
   # the command file is the chosen directory + the chosen name
-  if [ -z "$PREFIX" ]; then PREFIX="${PREFIX_DIR%/}/$NAME"; fi
+  if [ -z "$PREFIX" ]; then PREFIX="${PREFIX_DIR%/}/$CMD_NAME"; fi
 
   install_prereqs
   install_enj
 
   printf "\n"
   ok "enj installed at $PREFIX"
-  printf "\n${GREEN}${BOLD}  → run:  %s install <package>${RESET}\n" "$NAME"
-  printf "  → help: %s --help\n\n" "$NAME"
+  printf "\n${GREEN}${BOLD}  → run:  %s install <package>${RESET}\n" "$PREFIX"
+  printf "  → help: %s --help\n\n" "$PREFIX"
 }
 
 main "$@"
