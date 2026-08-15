@@ -7,14 +7,14 @@
 #  from the project's own files.
 #
 #  Usage:
-#    curl -fsSL https://raw.githubusercontent.com/enjo/enj/main/curl.sh | bash
+#    curl -fsSL https://raw.githubusercontent.com/enjo2/enj/main/curl.sh | bash
 #
 #  Arguments are passed straight through to install.sh, e.g.:
 #    curl -fsSL URL/curl.sh | bash -s -- --yes
 # ============================================================================
 set -euo pipefail
 
-REPO_URL="${ENJ_REPO:-https://github.com/enjo/enj.git}"
+REPO_URL="${ENJ_REPO:-https://github.com/enjo2/enj.git}"
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT

@@ -4,7 +4,7 @@
 #  A cross-platform meta package manager.
 #
 #  Usage:
-#    curl -fsSL https://raw.githubusercontent.com/enjo/enj/main/install.sh | bash
+#    curl -fsSL https://raw.githubusercontent.com/enjo2/enj/main/install.sh | bash
 #
 #  Options:
 #    --yes | -y            skip all prompts (non-interactive)
@@ -17,7 +17,7 @@
 set -euo pipefail
 
 VERSION="0.1.0"
-ENJ_REPO="${ENJ_REPO:-https://github.com/enjo/enj.git}"
+ENJ_REPO="${ENJ_REPO:-https://github.com/enjo2/enj.git}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ---------------------------------------------------------------------------
@@ -309,12 +309,25 @@ install_prereqs() {
 # ---------------------------------------------------------------------------
 #  main install
 # ---------------------------------------------------------------------------
+find_local_clone() {
+  # look for an already-cloned enj repo and prefer it over a fresh clone
+  local dir
+  for dir in "$SCRIPT_DIR" "$PWD" "$HOME/enj" "${ENJ_SOURCE:-}"; do
+    if [ -n "$dir" ] && [ -f "$dir/pyproject.toml" ] && [ -f "$dir/install.sh" ]; then
+      printf '%s\n' "$dir"
+      return 0
+    fi
+  done
+  return 1
+}
+
 install_enj() {
   local src="$SOURCE" tmpdir=""
   if [ -z "$src" ]; then
-    # running straight from the project directory -> install those files
-    if [ -f "$SCRIPT_DIR/pyproject.toml" ]; then
-      src="$SCRIPT_DIR"
+    # use an already-cloned repo when we find one
+    if local_dir="$(find_local_clone)"; then
+      info "using existing enj repo at $local_dir"
+      src="$local_dir"
     else
       tmpdir="$(mktemp -d)"
       info "cloning enj from ${ENJ_REPO} ..."
@@ -445,9 +458,9 @@ main() {
   printf "\n  ${DIM}installer v%s  |  %s  |  native: %s${RESET}\n\n" \
     "$VERSION" "$os_label" "${NATIVE_MANAGER:-none}"
 
-  PREFIX=""
-  PREFIX_DIR=""
-  NAME=""
+  PREFIX="${PREFIX:-}"
+  PREFIX_DIR="${PREFIX_DIR:-}"
+  NAME="${NAME:-}"
   if [ -z "$PREFIX_DIR" ] && [ -z "$PREFIX" ]; then
     if [ "$YES" -eq 1 ]; then
       PREFIX_DIR="$HOME/.local"

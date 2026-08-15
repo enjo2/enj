@@ -26,7 +26,7 @@ aur      kdenlive                     (AUR) Kdenlive
 ## Quick install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/enjo/enj/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/enjo2/enj/main/install.sh | bash
 ```
 
 The installer detects your OS/distro, walks you through choosing an install
@@ -56,7 +56,7 @@ restart the terminal or PowerShell.
 **Manual**
 
 ```sh
-git clone https://github.com/enjo/enj.git
+git clone https://github.com/enjo2/enj.git
 cd enj
 pip install -e .
 ```
