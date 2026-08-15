@@ -490,8 +490,8 @@ main() {
 
   printf "\n"
   ok "enj installed at $PREFIX"
-  printf "\n${GREEN}${BOLD}  → run:  %s install <package>${RESET}\n" "$PREFIX"
-  printf "  → help: %s --help\n\n" "$PREFIX"
+  printf "\n${GREEN}${BOLD}  → run:  %s install <package>${RESET}\n" "$CMD_NAME"
+  printf "  → help: %s --help\n\n" "$CMD_NAME"
 }
 
 main "$@"
