@@ -18,7 +18,10 @@ set -euo pipefail
 
 VERSION="0.1.0"
 ENJ_REPO="${ENJ_REPO:-https://github.com/enjo2/enj.git}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="${BASH_SOURCE[0]:-}"
+if [ -n "$SCRIPT_DIR" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_DIR")" && pwd)"
+fi
 
 # ---------------------------------------------------------------------------
 #  terminal setup / UI helpers
