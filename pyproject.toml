@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enj"
+version = "0.1.0"
+description = "Cross-platform meta package manager: native package manager first, then flatpak/snap/AUR/brew/... as fallbacks"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "enjo" }]
+keywords = ["package-manager", "cli", "linux", "macos", "windows"]
+
+[project.scripts]
+enj = "enj.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["enj*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
